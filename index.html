@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Valentine’s Day ❤️</title>
+
+<style>
+html,body{
+  margin:0; 
+  padding:0; 
+  height:100%; 
+  font-family:'Poppins',Arial, sans-serif;
+  overflow:hidden; 
+  color:white; 
+  text-align:center;
+}
+
+/* Background slideshow */
+#bg-slideshow{
+  position:fixed; 
+  top:0; 
+  left:0; 
+  width:100%; 
+  height:100%; 
+  z-index:-3;
+}
+
+#bg-slideshow img{
+  position:absolute; 
+  width:100%; 
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  left:0;
+  top:0;
+  opacity:0; 
+  transition:opacity 2s ease-in-out;
+}
+
+/* dark overlay */
+#overlay{
+  position:fixed; 
+  top:0; 
+  left:0; 
+  width:100%; 
+  height:100%;
+  background:rgba(0,0,0,0.55); 
+  z-index:-2;
+}
+
+/* hearts */
+#hearts{
+  position:fixed; 
+  top:0; 
+  left:0; 
+  width:100%; 
+  height:100%; 
+  z-index:-1;
+  pointer-events:none;
+}
+
+.heart{
+  position:absolute; 
+  font-size:24px; 
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  from{transform:translateY(-10%); opacity:1;}
+  to{transform:translateY(110vh); opacity:0;}
+}
+
+/* center content */
+#container{
+  height:100%;
+  width:100%;
+  display:flex; 
+  flex-direction:column; 
+  justify-content:center; 
+  align-items:center; 
+  text-align:center;
+  position:relative;
+  padding:20px;
+}
+
+/* button */
+button{
+  background:#ff2e63; 
+  border:none; 
+  padding:12px 20px; 
+  color:white;
+  border-radius:25px; 
+  font-size:16px; 
+  cursor:pointer; 
+  margin-top:20px;
+}
+
+/* small photos */
+#random-photos{
+  position:fixed; 
+  bottom:10px; 
+  right:10px; 
+  display:flex; 
+  gap:8px;
+}
+
+#random-photos img{
+  width:60px; 
+  height:60px; 
+  border-radius:10px; 
+  object-fit:cover; 
+  border:2px solid white;
+}
+</style>
+</head>
+
+<body>
+
+<div id="bg-slideshow">
+  <img src="photo1.jpeg">
+  <img src="photo2.jpeg">
+  <img src="photo3.jpeg">
+  <img src="photo4.jpeg">
+  <img src="photo5.jpeg">
+  <img src="photo6.jpeg">
+  <img src="photo8.jpeg">
+</div>
+
+<div id="overlay"></div>
+<div id="hearts"></div>
+
+<audio id="bg-music" loop>
+  <source src="Perfect-(Mr-Jat.in).mp3" type="audio/mpeg">
+</audio>
+
+<div id="random-photos">
+  <img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=200&q=80">
+  <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=200&q=80">
+</div>
+
+<div id="container">
+  <div id="intro">
+    <h1>💖 Happy Valentine’s Day, Dear 💖</h1>
+    <p>You mean the world to me. Let’s walk down memory lane together…</p>
+
+    <!-- THIS BUTTON NOW STARTS MUSIC + QUIZ -->
+    <button onclick="startQuiz()">Start Our Love Quiz ❤️</button>
+  </div>
+
+  <div id="quiz" style="display:none;">
+    <div id="q-box"></div>
+    <input type="text" id="answer" placeholder="Your answer here..." />
+    <button onclick="nextQuestion()">Next</button>
+    <p class="quote" id="quote"></p>
+  </div>
+</div>
+
+<script>
+// -------- SLIDESHOW --------
+const slides = document.querySelectorAll('#bg-slideshow img');
+let s = 0;
+slides[s].style.opacity = 1;
+
+setInterval(()=>{
+  slides[s].style.opacity = 0;
+  s = (s+1)%slides.length;
+  slides[s].style.opacity = 1;
+}, 4000);
+
+// -------- FALLING HEARTS --------
+function createHeart(){
+  const heart = document.createElement('div');
+  heart.className='heart';
+  heart.innerHTML='❤️';
+  heart.style.left = Math.random()*100 + '%';
+  heart.style.animationDuration = (3+Math.random()*3)+'s';
+  document.getElementById('hearts').appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+// -------- QUIZ + MUSIC FIX (MOST IMPORTANT) --------
+const music = document.getElementById('bg-music');
+
+function startQuiz(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('quiz').style.display='block';
+
+  // 🔥 GUARANTEED PLAY FIX 🔥
+  music.play();
+  
+  showQuestion();
+}
+
+const questions = [
+  "Where did we first meet?",
+  "What was the date of our first meeting?",
+  "Who said ‘I love you’ first?",
+  "Where was our first date?",
+  "What is our favorite song together?",
+  "What movie did we first watch together?",
+  "Where was our first photo together?",
+  "What is your favorite memory of us?",
+  "Where did we first hold hands?",
+  "What nickname do you love most?",
+  "Where do you want to travel with me first?",
+  "What made you fall in love with me?",
+  "What is our most special day?",
+  "Where do you see us in 5 years?",
+  "Will you always be my Valentine? 💍"
+];
+
+const quotes = [
+  "Love isn’t something you find. Love is something that finds you.",
+  "In all the world, there is no heart for me like yours.",
+  "You are my today and all of my tomorrows.",
+  "Every love story is beautiful, but ours is my favorite.",
+  "You are my greatest adventure."
+];
+
+let i = 0;
+
+function showQuestion(){
+  document.getElementById('q-box').innerHTML = 
+  `<h2>Question ${i+1}/15</h2><p>${questions[i]}</p>`;
+  
+  document.getElementById('answer').value = '';
+}
+
+function nextQuestion(){
+  if(i < questions.length-1){ 
+    i++; 
+    showQuestion(); 
+  }
+  else{
+    document.getElementById('quiz').innerHTML = 
+    `<h1>💞 Thank you, my love! 💞</h1><p>Our love is forever.</p>`;
+  }
+}
+</script>
+
+</body>
+</html>
